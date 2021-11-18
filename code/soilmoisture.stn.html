@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>UCLA Drought Monitor</title>
+<link href="includes/main.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+function changeplot(stn){
+    var str1="./pictures/sm.percentile.ts.archive/pctl."
+    var str2="./pictures/sm.ts.archive/";
+    var str3=".png"
+	document.tims1.src=str1.concat(stn,str3);
+	document.tims2.src=str2.concat(stn,str3);
+}
+</script>
+
+<style type="text/css">
+.mapDiv { width:130px; height:60px;text-align:center; color:#369; background:white; position:absolute; display: none; word-break:normal;font-family: Arial Black; font-size: 10px; }
+</style>
+
+<script src="includes/float.box.jq.js" type="text/javascript"></script>
+<script src="includes/sub.huc.js" type="text/javascript"></script>
+
+<script src="includes/subbasin.button.js" type="text/javascript"></script>
+
+</head>
+
+<body onLoad="window.status='Welcome to UCLA Drought Monitor';return true">
+<script src="includes/head.js" language=javascript></script>
+<div id="mainpanel-white">
+
+    <table width="100%"  align="center" cellpadding="0" bgcolor="#FFFFFF">
+       <td valign="top" bgcolor="#FFFFFF"> 
+
+
+     <h1>Soil moisture percentile time series from 19980101-20180426</h1> 
+<p>
+Soil moisture percentile are calculated using weibull plotting rank based on 20 years historical data (1998-2017). Blue lines show soil moisture percentile time series from VIC model data, and red lines show soil moisture time series extended from NRCS, SCAN, USCRN and WRCC station observations using MOVE2 method. Soil moisture percentile after 2018 are obtained by looking up the same historical values percentile in 1998-2017.
+</p>
+
+<p>
+<b><center>Click on any station below to see graphs &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</center></b></p>
+ <table align="center" cellpadding="0" bgcolor="#FFFFFF">
+    <tr>
+      <td colspan="1" align="center" bgcolor="white" valign="top" >
+	<img src="./pictures/sm.percentile.archive/20171231.jpg" usemap="#Map" border="0" 
+           name="soilmoisturemap" height=1500 width=1200 >
+	</br></br>
+      </td>
+    </tr>
+    </table>
+<table align="center" >
+<tr>
+      <td align=right >
+      <img src="./pictures/sm.percentile.ts.archive/pctl.cbva.png" border="0" 
+           name="tims1" height=1000 width=1000>
+        </td> 
+      <td>
+	<map name="Map" id="Map">
+        	 <script src="includes/sm.station_click.js" type="text/javascript"></script>
+	</map>
+      
+</tr>
+ </table>
+<table align="center" >
+<tr>
+      <td align=right >
+      <img src="./pictures/sm.ts.archive/cbva.png" border="0" 
+           name="tims2" height=1000 width=1000>
+	</td>
+	<map name="Map" id="Map">
+        	 <script src="includes/sm.station_click.js" type="text/javascript"></script>
+	</map>
+      
+</tr>
+ </table>
+
+
+</div>
+</div>
+
+</body>
+</html>

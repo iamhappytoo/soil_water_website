@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title> UCLA Drought Monitor </title>
+<link href="includes/main.css" rel="stylesheet" type="text/css">
+
+
+<script language="javascript" src="./includes/popmeup.js"> </script>
+<script type="text/javascript">
+function zeroPad(num, places){
+  var zero=places-num.toString().length+1;
+  return Array(+(zero >0 && zero)).join("0")+num;
+}
+function changeplot(yy,mm,dd) {
+    var sm=".jpg";
+    var str1="./pictures/vic.percentile.map/";
+    var str2="./pictures/sm.percentile.archive/";
+    var str3="./pictures/bayesian.percentile.map/";
+  if(parseInt(yy.value)<1998)
+   {yy.value=1998;}
+  if(parseInt(mm.value)>12||parseInt(mm.value)<1)
+   {mm.value=1;} 
+  if((parseInt(mm.value)==1||parseInt(mm.value)==3||parseInt(mm.value)==5||parseInt(mm.value)==7||parseInt(mm.value)==8||parseInt(mm.value)==10||parseInt(mm.value)==12)&parseInt(dd.value)>31)
+   {dd.value=1;}
+  if((parseInt(mm.value)==4||parseInt(mm.value)==6||parseInt(mm.value)==9||parseInt(mm.value)==11)&parseInt(dd.value)>30)
+   {dd.value=1;}
+  if(parseInt(mm.value)==2&parseInt(yy.value)%4==0&parseInt(dd.value)>29)
+   {dd.value=1;}
+  if(parseInt(mm.value)==2&parseInt(yy.value)%4!=0&parseInt(dd.value)>28)
+   {dd.value=1;}
+   
+   temp=mm.value;
+   junk=parseInt(temp);
+   temp=zeroPad(junk, 2);
+   newtemp=dd.value;
+   newjunk=parseInt(newtemp);
+   newtemp=zeroPad(newjunk, 2);
+   if((parseInt(yy.value)>=1998)&
+     parseInt(mm.value)<=12&parseInt(mm.value)>=1){
+    psm1=str1.concat(yy.value,temp,newtemp,sm);
+    psm2=str2.concat(yy.value,temp,newtemp,sm);
+    psm3=str3.concat(yy.value,temp,newtemp,sm);
+    document.sm1.src=psm1;
+    document.sm2.src=psm2;
+    document.sm3.src=psm3;
+    }
+    else{
+    yy.value="1998";mm.value="1";dd.value="1";
+    document.sm1.src="./pictures/vic.percentile.map/19980101.jpg";
+    document.sm2.src="./pictures/sm.percentile.archive/19980101.jpg";
+    document.sm3.src="./pictures/bayesian.percentile.archive/19980101.jpg";
+    }
+}
+function addyear(yy,month,dd) {
+    var temp;
+    temp=parseInt(yy.value)+1;
+    temp=temp.toString();
+    yy.value=temp;
+    if(parseInt(yy.value)<1998 ){
+    yy.value=1998;
+    }
+    if(isNaN(yy.value)){
+    yy.value=1998;
+    }
+    changeplot(yy,month,dd);
+}
+function subyear(yy,month,dd) {
+    var temp;
+    temp=parseInt(yy.value)-1;
+    temp=temp.toString();
+    yy.value=temp;
+    if(parseInt(yy.value)<1998 ){
+    yy.value=1998;
+    }
+    if(isNaN(yy.value)){
+    yy.value=1998;
+    }
+    changeplot(yy,month,dd);
+}
+function addmon(yy,month,dd) {
+    var temp,y1,y2;
+    temp=parseInt(month.value)+1;
+    temp=temp.toString();
+    month.value=temp;
+    y1=parseInt(yy.value)+1;
+    y1=y1.toString();
+    y2=parseInt(yy.value)-1;
+    y2=y2.toString();
+    if(parseInt(month.value)<1 ){
+    month.value=12;
+    yy.value=y2;
+    }
+    if(parseInt(month.value)>12 ||isNaN(month.value)){
+    month.value=1;
+    yy.value=y1;
+    }
+    changeplot(yy,month,dd);
+}
+function submon(yy,month,dd) {
+    var temp,y1,y2;
+    temp=parseInt(month.value)-1;
+    temp=temp.toString();
+    month.value=temp;
+    y1=parseInt(yy.value)+1;
+    y1=y1.toString();
+    y2=parseInt(yy.value)-1;
+    y2=y2.toString();
+    if(parseInt(month.value)<1 ){
+    month.value=12;
+    yy.value=y2;
+    }
+    if(parseInt(month.value)>12 ||isNaN(month.value)){
+    month.value=12;
+    yy.value=y1;
+    }
+    changeplot(yy,month,dd);
+}
+function addday(yy,month,dd) {
+    var temp,m1,m2,y1,y2;
+    temp=parseInt(dd.value)+1;
+    temp=temp.toString();
+    dd.value=temp;
+    m1=parseInt(month.value)+1;
+    m1=m1.toString();
+    m2=parseInt(month.value)-1;
+    m2=m2.toString();
+    y1=parseInt(yy.value)+1;
+    y1=y1.toString();
+    y2=parseInt(yy.value)-1;
+    y2=y2.toString();
+    if((parseInt(month.value)==1 || parseInt(month.value)==3 || parseInt(month.value)==5 || parseInt(month.value)==7 || parseInt(month.value)==8 || parseInt(month.value)==10 || parseInt(month.value)==12)&(parseInt(dd.value) >31)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==2 & parseInt(yy.value)%4==0)&(parseInt(dd.value)>29)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==2 & parseInt(yy.value)%4!=0)&(parseInt(dd.value)>28)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==4 || parseInt(month.value)==6 || parseInt(month.value)==9 || parseInt(month.value)==11)&(parseInt(dd.value)>30)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if(parseInt(dd.value)<1 || isNaN(dd.value)){
+    month.value=m2;
+    if(parseInt(month.value)==4 || parseInt(month.value)==6 || parseInt(month.value)==9 || parseInt(month.value)==11){
+    dd.value=30;
+    }
+    if(parseInt(month.value)==1 || parseInt(month.value)==3 || parseInt(month.value)==5 || parseInt(month.value)==7 || parseInt(month.value)==8 || parseInt(month.value)==10 || parseInt(month.value)==12){
+    dd.value=31;
+    }
+    if(parseInt(month.value)==2 & parseInt(yy.value)%4==0){
+    dd.value=29;
+    }
+    if(parseInt(month.value)==2 & parseInt(yy.value)%4!=0){
+    dd.value=28;
+    }
+    }
+    if(parseInt(month.value)<1 ){
+    month.value=12;
+    yy.value=y2;
+    }
+    if(parseInt(month.value)>12 ||isNaN(month.value)){
+    month.value=1;
+    yy.value=y1;
+    }
+    changeplot(yy,month,dd);
+}
+function subday(yy,month,dd) {
+    var temp,m1,m2,y1,y2;
+    temp=parseInt(dd.value)-1;
+    temp=temp.toString();
+    dd.value=temp;
+    m1=parseInt(month.value)+1;
+    m1=m1.toString();
+    m2=parseInt(month.value)-1;
+    m2=m2.toString();
+    y1=parseInt(yy.value)+1;
+    y1=y1.toString();
+    y2=parseInt(yy.value)-1;
+    y2=y2.toString();
+    if((parseInt(month.value)==1 || parseInt(month.value)==3 || parseInt(month.value)==5 || parseInt(month.value)==7 || parseInt(month.value)==8 || parseInt(month.value)==10 || parseInt(month.value)==12)&(parseInt(dd.value) >31)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==2 & parseInt(yy.value)%4==0)&(parseInt(dd.value)>29)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==2 & parseInt(yy.value)%4!=0)&(parseInt(dd.value)>28)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if((parseInt(month.value)==4 || parseInt(month.value)==6 || parseInt(month.value)==9 || parseInt(month.value)==11)&(parseInt(dd.value)>30)){
+    month.value=m1;
+    dd.value=1;
+    }
+    if(parseInt(dd.value)<1 || isNaN(dd.value)){
+    month.value=m2;
+    if(parseInt(month.value)==4 || parseInt(month.value)==6 || parseInt(month.value)==9 || parseInt(month.value)==11){
+    dd.value=30;
+    }
+    if(parseInt(month.value)==1 || parseInt(month.value)==3 || parseInt(month.value)==5 || parseInt(month.value)==7 || parseInt(month.value)==8 || parseInt(month.value)==10 || parseInt(month.value)==12){
+    dd.value=31;
+    }
+    if(parseInt(month.value)==2 & parseInt(yy.value)%4==0){
+    dd.value=29;
+    }
+    if(parseInt(month.value)==2 & parseInt(yy.value)%4!=0){
+    dd.value=28;
+    }
+    }
+    if(parseInt(month.value)<1 ){
+    month.value=12;
+    yy.value=y2;
+    dd.value=31;
+    }
+    if(parseInt(month.value)>12 ||isNaN(month.value)){
+    month.value=1;
+    yy.value=y1;
+    }
+    changeplot(yy,month,dd);
+}
+</script>
+
+</head>
+
+<body onLoad="window.status='Welcome to UCLA SW Monitor';return true">
+<script src="includes/head.js" language=javascript></script>
+
+<div id="mainpanel-white">
+
+    <table width="100%"  align="center" cellpadding="0" bgcolor="#FFFFFF">
+       <td valign="top" bgcolor="#FFFFFF"> 
+
+     <h1>Observed Soil Moisture Percentile (50cm soil column)</h1> 
+<p>The plots below show current observed soil moisture (50cm soil column) percentile distribution for stations from NRCS, SCAN, USCRN and WRCC. Percentile calculated using weibull plotting rank of current day's soil moisture among 20 years' same-date soil moisture (1998-2017), which is extended by using MOVE2 and Bayesian post-processing algorithm respectively, MOVE2 extension is conducted with a moving window of 31 days, Bayesian extension is conducted directly to the entire record. <b>Please input the date you would like to see</b>.</p>
+<!--<p><font color="red">Notice: the NRCS SNOTEL stations source is out of service, this webpage will be updated once that's fixed</font> </p>-->
+</br>
+
+<center>
+<table width="100%" align=center>
+  <input type="button" value=view onClick="changeplot(yy,mm,dd)">
+&nbsp &nbsp &nbsp &nbsp &nbsp
+  Year
+  <input type=text name=year id=yy style="width:40px; text-align:center"
+               onkeydown='if(event.keyCode==13){changeplot(yy,mm,dd)}'>
+  <input type="button" value="+" onClick="addyear(yy,mm,dd)">
+  <input type="button" value="-" onClick="subyear(yy,mm,dd)">
+&nbsp &nbsp &nbsp &nbsp &nbsp
+  Month
+  <input type=text name=month id=mm style="width:40px; text-align:center"
+               onkeydown='if(event.keyCode==13){changeplot(yy,mm,dd)}'>
+  <input type="button" value="+" onClick="addmon(yy,mm,dd)">
+  <input type="button" value="-" onClick="submon(yy,mm,dd)">
+&nbsp &nbsp &nbsp &nbsp &nbsp
+  Day
+  <input type=text name=day id=dd style="width:40px; text-align:center"
+               onkeydown='if(event.keyCode==13){changeplot(yy,mm,dd)}'>
+  <input type="button" value="+" onClick="addday(yy,mm,dd)">
+  <input type="button" value="-" onClick="subday(yy,mm,dd)">
+</table>    
+</center>
+<table align="center" >
+<tr>
+      <td align="right">
+      <b> The order of figures below is (from left to right): VIC                   </b> 
+	</td>
+&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      <td>
+      <b> MOVE2                </b>
+	</td>
+&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      <td>
+      <b> Bayesian </b>
+        </td>
+<table align="center" >
+<tr>
+      <td align="right">
+      <img src="./pictures/vic.sm.pctl.realtime/realtimesm.jpg" border="0" name="sm1" height=600 width=470>
+	</td>
+      <td>
+      <img src="./pictures/sm.pctl.realtime/realtimesm.jpg" border="0" name="sm2" height=600 width=470>
+	</td>
+      <td>
+      <img src="./pictures/bayesian.sm.pctl.realtime/realtimesm.jpg" border="0" name="sm3" height=600 width=470>
+        </td>
+</tr> 
+</table>
+
+
+<html>
+  <head>
+    <title>Station screening criteria: 1. At least 5-year observation record; 2. Not irrigation-affected 3. Pass bivariate test between station precipitation and soil moisture</title>
+  </head>
+  <body>
+    <h1>Station screening result and reasons</h1>
+    <p>Station screening criteria: 1. At least 5-year observation record; 2. Not irrigation-affected 3. Pass bivariate test between station precipitation and soil moisture </p>
+    <p>Saved stations (44 stations)</p>
+     <ul style="columns: 9 100px; -moz-columns: 9 100px;-webkit-columns: 9 100px;">
+      <li>nnsv (nrcs)</li>
+      <li>2192 (scan)</li>
+      <li>2187 (scan)</li>
+      <li>2170 (scan)</li>
+      <li>2144 (scan)</li>
+      <li>1194 (nrcs)</li>
+      <li>1155 (nrcs)</li>
+      <li>1150 (nrcs)</li>
+      <li>1136 (nrcs)</li>
+      <li>1110 (nrcs)</li>
+      <li>1052 (nrcs)</li>
+      <li>1051 (nrcs)</li>
+      <li>1050 (nrcs)</li>
+      <li>1006 (nrcs)</li>
+      <li>848 (nrcs)</li>
+      <li>846 (nrcs)</li>
+      <li>809 (nrcs)</li>
+      <li>778 (nrcs)</li>
+      <li>771 (nrcs)</li>
+      <li>746 (nrcs)</li>
+      <li>698 (nrcs)</li>
+      <li>633 (nrcs)</li>
+      <li>587 (nrcs)</li>
+      <li>575 (nrcs)</li>
+      <li>573 (nrcs)</li>
+      <li>570 (nrcs)</li>
+      <li>569 (nrcs)</li>
+      <li>548 (nrcs)</li>
+      <li>541 (nrcs)</li>
+      <li>539 (nrcs)</li>
+      <li>508 (nrcs)</li>
+      <li>503 (nrcs)</li>
+      <li>476 (nrcs)</li>
+      <li>473 (nrcs)</li>
+      <li>463 (nrcs)</li>
+      <li>443 (nrcs)</li>
+      <li>428 (nrcs)</li>
+      <li>373 (nrcs)</li>
+      <li>356 (nrcs)</li>
+      <li>340 (nrcs)</li>
+      <li>337 (nrcs)</li>
+      <li>321 (nrcs)</li>
+      <li>CA_Yosemite_Village_12_W (uscrn)</li>
+      <li>CA_Santa_Barbara_11_W (uscrn)</li>
+    </ul> 
+  <p>Deleted stations, network and reasons: total observation record length less than 5 years; irrigation-affected; failed to pass bivariate test (173 stations) </p>
+   <ul style="columns: 4 400px; -moz-columns: 4 400px;-webkit-columns: 4 400px;">
+      <li>334(nrcs): failed to pass the bivariate test</li>
+      <li>336(nrcs): extension result is unsatisfactory/unreasonable</li>
+      <li>401(nrcs): less than 5 years</li>
+      <li>404(nrcs): less than 5 years</li>
+      <li>406(nrcs): less than 5 years</li>
+      <li>408(nrcs): less than 5 years</li>
+      <li>409(nrcs): less than 5 years</li>
+      <li>410(nrcs): less than 5 years</li>
+      <li>413(nrcs): less than 5 years</li>
+      <li>414(nrcs): less than 5 years</li>
+      <li>415(nrcs): less than 5 years</li>
+      <li>416(nrcs): less than 5 years</li>
+      <li>417(nrcs): failed to pass the bivariate test</li>
+      <li>419(nrcs): less than 5 years</li>
+      <li>420(nrcs): less than 5 years</li>
+      <li>445(nrcs): failed to pass the bivariate test</li>
+      <li>453(nrcs): failed to pass the bivariate test</li>
+      <li>454(nrcs): failed to pass the bivariate test</li>
+      <li>462(nrcs): failed to pass the bivariate test</li>
+      <li>498(nrcs): failed to pass the bivariate test</li>
+      <li>501(nrcs): less than 5 years</li>
+      <li>502(nrcs): less than 5 years</li>
+      <li>503(soilSCAPE): less than 5 years</li>
+      <li>504(nrcs): less than 5 years</li>
+      <li>505(nrcs): less than 5 years</li>
+      <li>506(nrcs): less than 5 years</li>
+      <li>507(nrcs): less than 5 years</li>
+      <li>508(soilSCAPE): less than 5 years</li>
+      <li>511(nrcs): less than 5 years</li>
+      <li>512(nrcs): less than 5 years</li>
+      <li>513(nrcs): less than 5 years</li>
+      <li>515(nrcs): less than 5 years</li>
+      <li>516(nrcs): less than 5 years</li>
+      <li>517(nrcs): less than 5 years</li>
+      <li>518(soilSCAPE): less than 5 years</li>
+      <li>518(nrcs): failed to pass the bivariate test</li>
+      <li>527(nrcs): failed to pass the bivariate test</li>
+      <li>540(nrcs): failed to pass the bivariate test</li>
+      <li>549(nrcs): failed to pass the bivariate test</li>
+      <li>574(nrcs): failed to pass the bivariate test</li>
+      <li>615(nrcs): failed to pass the bivariate test</li>
+      <li>652(nrcs): failed to pass the bivariate test</li>
+      <li>697(nrcs): failed to pass the bivariate test</li>
+      <li>707(nrcs): less than 5 years</li>
+      <li>710(nrcs): less than 5 years</li>
+      <li>724(nrcs): failed to pass the bivariate test</li>
+      <li>750(nrcs): failed to pass the bivariate test</li>
+      <li>784(nrcs): failed to pass the bivariate test</li>
+      <li>811(nrcs): failed to pass the bivariate test</li>
+      <li>834(nrcs): failed to pass the bivariate test</li>
+      <li>849(nrcs): failed to pass the bivariate test</li>
+      <li>900(nrcs): less than 5 years</li>
+      <li>901(nrcs): less than 5 years</li>
+      <li>902(nrcs): less than 5 years</li>
+      <li>903(nrcs): less than 5 years</li>
+      <li>904(nrcs): less than 5 years</li>
+      <li>905(nrcs): less than 5 years</li>
+      <li>906(nrcs): less than 5 years</li>
+      <li>907(nrcs): less than 5 years</li>
+      <li>908(nrcs): less than 5 years</li>
+      <li>909(nrcs): less than 5 years</li>
+      <li>910(nrcs): less than 5 years</li>
+      <li>911(nrcs): less than 5 years</li>
+      <li>912(nrcs): less than 5 years</li>
+      <li>913(nrcs): less than 5 years</li>
+      <li>915(nrcs): less than 5 years</li>
+      <li>916(nrcs): less than 5 years</li>
+      <li>1000(nrcs): less than 5 years</li>
+      <li>1017(nrcs): less than 5 years</li>
+      <li>1018(nrcs): less than 5 years</li>
+      <li>1019(nrcs): less than 5 years</li>
+      <li>1020(nrcs): less than 5 years</li>
+      <li>1022(nrcs): less than 5 years</li>
+      <li>1023(nrcs): less than 5 years</li>
+      <li>1024(nrcs): less than 5 years</li>
+      <li>1025(nrcs): less than 5 years</li>
+      <li>1026(nrcs): less than 5 years</li>
+      <li>1029(nrcs): less than 5 years</li>
+      <li>1030(nrcs): less than 5 years</li>
+      <li>1031(nrcs): less than 5 years</li>
+      <li>1137(nrcs): less than 5 years</li>
+      <li>1049(nrcs): failed to pass the bivariate test</li>
+      <li>1067(nrcs): failed to pass the bivariate test</li>
+      <li>1111(nrcs): failed to pass the bivariate test</li>
+      <li>1112(nrcs): failed to pass the bivariate test</li>
+      <li>1147(nrcs): extension result is unsatisfactory/unreasonable</li>
+      <li>1152(nrcs): less than 5 years</li>
+      <li>1195(nrcs): less than 5 years</li>
+      <li>1202(nrcs): less than 5 years</li>
+      <li>1203(nrcs): less than 5 years</li>
+      <li>1204(nrcs): less than 5 years</li>
+      <li>1205(nrcs): less than 5 years</li>
+      <li>1206(nrcs): less than 5 years</li>
+      <li>1207(nrcs): less than 5 years</li>
+      <li>1208(nrcs): less than 5 years</li>
+      <li>1209(nrcs): less than 5 years</li>
+      <li>1210(nrcs): less than 5 years</li>
+      <li>1211(nrcs): less than 5 years</li>
+      <li>1213(nrcs): less than 5 years</li>
+      <li>1235(nrcs): less than 5 years</li>
+      <li>1242(nrcs): less than 5 years</li>
+      <li>1243(nrcs): less than 5 years</li>
+      <li>1244(nrcs): less than 5 years</li>
+      <li>1258(nrcs): less than 5 years</li>
+      <li>1262(nrcs): less than 5 years</li>
+      <li>1277(nrcs): less than 5 years</li>
+      <li>1301(nrcs): less than 5 years</li>
+      <li>1302(nrcs): less than 5 years</li>
+      <li>1303(nrcs): less than 5 years</li>
+      <li>1304(nrcs): less than 5 years</li>
+      <li>1305(nrcs): less than 5 years</li>
+      <li>1307(nrcs): less than 5 years</li>
+      <li>1308(nrcs): less than 5 years</li>
+      <li>1309(nrcs): less than 5 years</li>
+      <li>1311(nrcs): less than 5 years</li>
+      <li>1312(nrcs): less than 5 years</li>
+      <li>1313(nrcs): less than 5 years</li>
+      <li>1314(nrcs): less than 5 years</li>
+      <li>1315(nrcs): less than 5 years</li>
+      <li>1316(nrcs): less than 5 years</li>
+      <li>1317(nrcs): less than 5 years</li>
+      <li>1318(nrcs): less than 5 years</li>
+      <li>1321(nrcs): less than 5 years</li>
+      <li>2116(scan): failed to pass the bivariate test</li>
+      <li>2141(scan): failed to pass the bivariate test</li>
+      <li>2142(scan): failed to pass the bivariate test</li>
+      <li>2145(scan): failed to pass the bivariate test</li>
+      <li>2183(scan): failed to pass the bivariate test</li>
+      <li>2184(scan): less than 5 years</li>
+      <li>2149(scan): 50cm soil moisture missing since late 2017</li>
+      <li>2185(scan): less than 5 years</li>
+      <li>2186(scan): less than 5 years</li>
+      <li>2189(scan): less than 5 years</li>
+      <li>2190(scan): soil moisture record missing since late 2017</li>
+      <li>2191(scan): less than 5 years</li>
+      <li>2214(scan): less than 5 years</li>
+      <li>2215(scan): less than 5 years</li>
+      <li>2216(scan): less than 5 years</li>
+      <li>2217(scan): less than 5 years</li>
+      <li>2218(scan): less than 5 years</li>
+      <li>2219(scan): less than 5 years</li>
+      <li>czc(hmt): extension result is unsatisfactory/unreasonable</li>
+      <li>hbg(hmt): less than 5 years</li>
+      <li>hld(hmt): less than 5 years</li>
+      <li>lsn(hmt): less than 5 years</li>
+      <li>ptv(hmt): less than 5 years</li>
+      <li>pvc(hmt): less than 5 years</li>
+      <li>pvw(hmt): less than 5 years</li>
+      <li>rod(hmt): less than 5 years</li>
+      <li>rve(hmt): less than 5 years</li>
+      <li>rvn(hmt): less than 5 years</li>
+      <li>rvw(hmt): less than 5 years</li>
+      <li>str(hmt): less than 5 years</li>
+      <li>cbva(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>gspr(wrcc): failed to pass the bivariate test</li>
+      <li>nanv(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nclv(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>ncva(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nmas(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>npva(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>npwl(wrcc) irrigation-affected</li>
+      <li>nree(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nsmv(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nsna(wrcc) irrigation-affected</li>
+      <li>nspa(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nssv(wrcc): both irrigation-affected and failed to pass the bivariate test</li>
+      <li>nstv(wrcc) irrigation-affected</li>
+      <li>nswm(wrcc): failed to pass the bivariate test</li>
+      <li>wncc(wrcc): failed to pass the bivariate test</li>
+      <li>CA_Bodega_6_WSW(uscrn): failed to pass the bivariate test</li>
+      <li>CA_Merced_23_WSW(uscrn): less than 5 years</li>
+      <li>NV_Mercury_3_SSW(uscrn): failed to pass the bivariate test</li>
+      <li>CA_Redding_12_WNW(uscrn): failed to pass the bivariate test</li>
+   </ul>
+  </body> 
+</html>   
+</div>
+</div>
+
+</body>
+</html>
+
+
+
